@@ -7,6 +7,14 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import { useSelector } from "react-redux";
+import Register from "./pages/Register";
+import Home from "./pages";
+import Dashboard from "./pages/dashboard";
+import AddProduct from "./pages/dashboard/AddProduct";
+import AddCategory from "./pages/dashboard/AddCategory";
+import ProductsByCategoryId from "./pages/ProductsByCategoryId";
+import Product from "./pages/Product";
+import Cart from "./pages/Cart";
 
 function App() {
   // isLoggedIn value is in redux store, when user login, it is updated to true, and when user logout, it is updated to false.
@@ -33,10 +41,36 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
-        {/* <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/blog/:id" element={<SinglePost />} /> */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/add-product"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <AddProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/add-category"
+          element={
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <AddCategory />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/category/:category" element={<ProductsByCategoryId />} />
+        <Route path="/product/:id" element={<Product />} />
+        <Route path="/cart" element={<Cart />} />
         {/* <Route
           path="/add-blog"
           element={

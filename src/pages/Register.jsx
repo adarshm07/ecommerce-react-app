@@ -9,12 +9,14 @@ export default function Register() {
     lastName: "",
     email: "",
     password: "",
+    mobile: "",
+    role: "USER", // Default value should be USER and recommended to add as a default value from backend.
   });
 
   const handleRegister = () => {
     let config = {
       method: "post",
-      url: `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/user/register`,
+      url: `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/auth/register`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -39,27 +41,34 @@ export default function Register() {
             <h1 className="fs-4">Register</h1>
             <input
               type="text"
-              class="form-control mt-4"
+              className="form-control mt-4"
               placeholder="First Name"
               onChange={(e) => setUser({ ...user, firstName: e.target.value })}
             />
             <input
               type="text"
-              class="form-control mt-4"
+              className="form-control mt-4"
               placeholder="Last Name"
               onChange={(e) => setUser({ ...user, lastName: e.target.value })}
             />
             <input
               type="text"
-              class="form-control mt-4"
+              className="form-control mt-4"
               placeholder="Email"
               onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
             <input
               type="password"
-              class="form-control mt-3"
+              className="form-control mt-3"
               placeholder="Password"
               onChange={(e) => setUser({ ...user, password: e.target.value })}
+            />
+
+            <input
+              type="text"
+              className="form-control mt-3"
+              placeholder="Mobile"
+              onChange={(e) => setUser({ ...user, mobile: e.target.value })}
             />
             <button
               className="w-100 btn btn-primary mt-4"

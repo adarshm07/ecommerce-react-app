@@ -7,6 +7,7 @@ const initialState = {
   password: "",
   token: "",
   loggedIn: false,
+  role: "",
 };
 
 const userSlice = createSlice({
@@ -19,6 +20,7 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.token = action.payload.token;
       state.loggedIn = action.payload.loggedIn;
+      state.role = action.payload.role;
     },
     logout: (state) => {
       state.firstName = "";
@@ -26,6 +28,7 @@ const userSlice = createSlice({
       state.email = "";
       state.token = "";
       state.loggedIn = false;
+      state.role = "";
     },
   },
 });

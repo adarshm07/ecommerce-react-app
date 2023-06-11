@@ -13,7 +13,7 @@ export default function Login() {
 
   // dispatch is used to push data to redux store
   const dispatch = useDispatch();
-  
+
   const navigate = useNavigate();
   // handle login - example using javascript fetch web api.
   const handleLogin = async (e) => {
@@ -32,7 +32,7 @@ export default function Login() {
         body: raw,
       };
       const response = await fetch(
-        `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/user/login`,
+        `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/auth/login`,
         requestOptions
       );
       const data = await response.json();
@@ -43,8 +43,9 @@ export default function Login() {
             firstName: data.data.getUser.firstName,
             lastName: data.data.getUser.lastName,
             email: data.data.getUser.email,
-            token: data.data.getUser.token,
+            token: data.data.token,
             loggedIn: true,
+            role: data.data.getUser.role,
           })
         );
         // redirect to / using the react router

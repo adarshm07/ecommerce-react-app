@@ -2,9 +2,8 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import thunk from "redux-thunk";
-import postsReducer from "./postsSlice";
 import userReducer from "./userSlice";
-import categorySlice from "./categorySlice";
+import cartReducer from "./cartSlice";
 
 // what is the root store?
 // the store that holds all the reducers
@@ -18,9 +17,8 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-  posts: postsReducer,
   user: userReducer,
-  categories: categorySlice,
+  cart: cartReducer,
 });
 
 // these are used to persist the state
