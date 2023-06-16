@@ -1,0 +1,15 @@
+.avatar__image {
+  height: 40px;
+  width: 40px;
+  border-radius: 50px;
+}
+
+.avatar__name {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.hello__user {
+  font-size: 12px;
+  color: #ffffff;
+}

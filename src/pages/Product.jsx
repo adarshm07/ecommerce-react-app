@@ -31,6 +31,10 @@ export default function Product() {
       >
         <h1 className="text-center">{product.title}</h1>
       </div>
+      <div>
+        <h1 className="text-center">Description: {product.description}</h1>
+        <h1 className="text-center">Price: {product.price}</h1>
+      </div>
     </Layout>
   );
 }

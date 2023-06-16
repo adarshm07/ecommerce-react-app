@@ -8,6 +8,7 @@ import { useEffect } from "react";
 export default function Cart() {
   const productsInCart = useSelector((state) => state.cart);
   const token = useSelector((state) => state.user.token);
+  const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
 
   const getAllItems = async () => {
@@ -48,6 +49,22 @@ export default function Cart() {
     }
   };
 
+  const handleDelete = async () => {
+    let config = {
+      method: "DELETE",
+      url: `http://localhost:8080/api/v1/cart/empty`,
+      headers: {
+        "x-token": token,
+        "Content-Type": "application/json",
+      },
+    };
+
+    await axios.request(config).then((response) => {
+      toast.success("Cart cleared");
+      dispatch(clearCart());
+    });
+  };
+
   useEffect(() => {
     getAllItems();
   }, []);
@@ -84,10 +101,7 @@ export default function Cart() {
             );
           })}
         <button className="btn btn-primary">Checkout</button>
-        <button
-          className="btn btn-primary"
-          onClick={() => dispatch(clearCart())}
-        >
+        <button className="btn btn-primary" onClick={handleDelete}>
           Clear Cart
         </button>
 

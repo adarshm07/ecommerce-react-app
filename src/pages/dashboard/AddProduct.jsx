@@ -4,76 +4,53 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ImageUpload } from "../../components/ImageUpload";
 import axios from "axios";
+import { toast } from "react-toastify";
+import DashboardLayout from "../../components/DashboardLayout";
 
 export default function AddProduct() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [price, setPrice] = useState(0);
+  const [allCategories, setAllCategories] = useState([]);
   const [categoryId, setCategoryId] = useState("");
 
   // useSelector to get the data from the store
-  const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.user.token);
 
   // dispatch is used to push data to redux store
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  // const handleLogin = async (e) => {
-  //   // prevent default behavior - page refresh
-  //   e.preventDefault();
-  //   try {
-  //     // adding headers
-  //     var myHeaders = new Headers();
-  //     myHeaders.append("Content-Type", "application/json");
 
-  //     var raw = JSON.stringify({ email, password });
+  const fetchAllCategories = async () => {
+    const data = await axios.get("http://localhost:8080/api/v1/category");
+    if (data.data.statusCode === 200) {
+      setAllCategories(data.data.data);
+    } else {
+      toast.error("Error.");
+    }
+  };
 
-  //     var requestOptions = {
-  //       method: "POST",
-  //       headers: myHeaders,
-  //       body: raw,
-  //     };
-  //     const response = await fetch(
-  //       `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/auth/login`,
-  //       requestOptions
-  //     );
-  //     const data = await response.json();
-  //     // console.log(data.data.getUser);
-  //     if (data.status === "success") {
-  //       dispatch(
-  //         setUser({
-  //           firstName: data.data.getUser.firstName,
-  //           lastName: data.data.getUser.lastName,
-  //           email: data.data.getUser.email,
-  //           token: data.data.getUser.token,
-  //           loggedIn: true,
-  //           role: data.data.getUser.role,
-  //         })
-  //       );
-  //       // redirect to / using the react router
-  //       // navigate("/");
-  //     } else {
-  //       alert(data.message);
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  useEffect(() => {
+    fetchAllCategories();
+  }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     let data = JSON.stringify({
       title,
       description,
+      price,
+      categoryId,
       imageUrl,
     });
 
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/category`,
+      url: `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/product`,
       headers: {
-        "x-token": "",
+        "x-token": token,
         "Content-Type": "application/json",
       },
       data: data,
@@ -82,28 +59,33 @@ export default function AddProduct() {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        if (data.data.statusCode === 200) {
+          toast.success("Product added successfully.");
+        } else {
+          toast.error("Error.");
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  useEffect(() => {
-    if (user.loggedIn && window.location.pathname !== "/") {
-      // we are using navigate to redirect to the home page because
-      // redux without persistent storage will clear the data on page refresh.
-      const redirectTimer = setTimeout(() => {
-        // navigate("/");
-      }, 200);
+  // useEffect(() => {
+  //   if (user.loggedIn && window.location.pathname !== "/") {
+  //     // we are using navigate to redirect to the home page because
+  //     // redux without persistent storage will clear the data on page refresh.
+  //     const redirectTimer = setTimeout(() => {
+  //       // navigate("/");
+  //     }, 200);
 
-      return () => {
-        clearTimeout(redirectTimer);
-      };
-    }
-  }, [navigate, user]);
+  //     return () => {
+  //       clearTimeout(redirectTimer);
+  //     };
+  //   }
+  // }, [navigate, user]);
 
   const onUpload = async (file) => {
+    console.log(file);
     var formdata = new FormData();
     formdata.append("image", file[0], file[0].name);
 
@@ -114,21 +96,25 @@ export default function AddProduct() {
     };
 
     await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/upload`,
+      `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/upload`,
       requestOptions
     )
       .then(async (response) => {
         const data = await response.json();
         console.log(data);
-        // setTestimonial({ ...testimonial, url: data.data.path });
+        if (data.status) {
+          setImageUrl(data?.data?.path);
+        } else {
+          toast.error("Error.");
+        }
       })
       .catch((error) => console.log("error", error));
   };
   return (
-    <Layout>
+    <DashboardLayout>
       <div className="row">
-        <div className="col-12 col-md-3 col-lg-4"></div>
-        <div className="col-12 col-md-6 col-lg-4">
+        {/* <div className="col-12 col-md-3 col-lg-4"></div> */}
+        <div className="col-12 col-md-6 col-lg-12">
           <div className="w-75 m-auto border border-1 rounded p-4 mt-4">
             <h1 className="fs-4">Add Product</h1>
             <input
@@ -144,12 +130,34 @@ export default function AddProduct() {
               onChange={(e) => setDescription(e.target.value)}
             />
 
-            {/* <ImageUpload
+            <input
+              type="number"
+              className="form-control mt-3"
+              placeholder="Price"
+              onChange={(e) => setPrice(e.target.value)}
+            />
+
+            <select
+              name="category"
+              id="category"
+              className="form-control mt-3"
+              onChange={(e) => setCategoryId(e.target.value)}
+            >
+              <option value="">Select Category</option>
+              {allCategories.map((category) => (
+                <option value={category._id} key={category._id}>
+                  {category.title}
+                </option>
+              ))}
+            </select>
+
+            <ImageUpload
               onDrop={onUpload}
               reject="Image/Video file less than 5mb"
               uploadImg="Upload Image/Videos"
               description="Drag'n'drop files here to upload. We can accept only img or video files that are less than 5mb in size."
-            /> */}
+            />
+            <span className="text-muted mt-3">{imageUrl}</span>
             <button
               className="w-100 btn btn-primary mt-4"
               onClick={handleSubmit}
@@ -158,8 +166,8 @@ export default function AddProduct() {
             </button>
           </div>
         </div>
-        <div className="col-12 col-md-3 col-lg-4"></div>
+        {/* <div className="col-12 col-md-3 col-lg-4"></div> */}
       </div>
-    </Layout>
+    </DashboardLayout>
   );
 }

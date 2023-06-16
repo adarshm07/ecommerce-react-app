@@ -1,4 +1,5 @@
-import Header from "./Header";
+import Header from "../containers/Header";
+import Footer from "./Footer";
 
 export default function Layout({ children }) {
   return (
@@ -9,6 +10,7 @@ export default function Layout({ children }) {
           {children}
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

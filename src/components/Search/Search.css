@@ -1,0 +1,58 @@
+.search__container {
+  position: relative;
+}
+
+.search__input {
+  width: 600px;
+  height: 42px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  font-size: 16px;
+}
+
+.search__input::placeholder {
+  color: #999;
+}
+
+/* Dropdown container styles */
+.filter-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown styles */
+#filter {
+  padding: 10px;
+  height: 42px;
+  width: 72px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  font-size: 16px;
+  background-color: #eaeaea;
+}
+
+/* Dropdown arrow styles */
+#filter::after {
+  content: "\25BC"; /* Unicode character for down arrow */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #999;
+  pointer-events: none; /* Prevent arrow from being clickable */
+}
+
+/* Dropdown option styles */
+#filter option {
+  background-color: #fff;
+  color: #000;
+}
+
+.search__btn {
+  background-color: #f3a846;
+  width: 40px;
+  height: 42px;
+  border: 0;
+  border-radius: 0 4px 4px 0;
+}

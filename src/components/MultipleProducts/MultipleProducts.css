@@ -1,0 +1,25 @@
+.multiple__products {
+  box-shadow: 2px 2px 2px #f4f4f4;
+  background-color: #ffffff;
+}
+
+.multiple__products__grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 300px;
+  padding: 10px 40px 20px;
+}
+
+.multiple__products__title {
+  padding: 0px 40px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.product__title {
+  font-size: 14px;
+  font-weight: 600;
+}

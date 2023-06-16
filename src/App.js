@@ -15,10 +15,14 @@ import AddCategory from "./pages/dashboard/AddCategory";
 import ProductsByCategoryId from "./pages/ProductsByCategoryId";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
+import AlUsers from "./pages/dashboard/AllUsers";
+import AllProducts from "./pages/dashboard/AllProducts";
+import { register } from "swiper/element/bundle";
 
 function App() {
   // isLoggedIn value is in redux store, when user login, it is updated to true, and when user logout, it is updated to false.
   const isLoggedIn = useSelector((state) => state.user.loggedIn);
+  const isAdmin = useSelector((state) => state.user.role === "ADMIN");
 
   // we are creating a component here, which will redirect user to login page if user is not logged in.
   // we are passing isLoggedIn value as a prop to the component.
@@ -38,6 +42,9 @@ function App() {
     return children;
   };
 
+  // register Swiper custom elements
+  register();
+
   return (
     <Router>
       <Routes>
@@ -55,7 +62,7 @@ function App() {
         <Route
           path="/dashboard/add-product"
           element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <ProtectedRoute isLoggedIn={isLoggedIn && isAdmin}>
               <AddProduct />
             </ProtectedRoute>
           }
@@ -63,7 +70,7 @@ function App() {
         <Route
           path="/dashboard/add-category"
           element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
+            <ProtectedRoute isLoggedIn={isLoggedIn && isAdmin}>
               <AddCategory />
             </ProtectedRoute>
           }
@@ -71,6 +78,8 @@ function App() {
         <Route path="/category/:category" element={<ProductsByCategoryId />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/dashboard/all-users" element={<AlUsers />} />
+        <Route path="/dashboard/all-products" element={<AllProducts />} />
         {/* <Route
           path="/add-blog"
           element={

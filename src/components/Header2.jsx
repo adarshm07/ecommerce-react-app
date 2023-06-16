@@ -28,23 +28,8 @@ export default function Header() {
     {
       name: "Dashboard",
       link: "/dashboard",
-      visible: "loggedIn",
-    },
-    {
-      name: "Add Product",
-      link: "/add-product",
       visible: "adminLoggedIn",
     },
-    // {
-    //   name: "Add Blog",
-    //   link: "/add-blog",
-    //   visible: "loggedIn",
-    // },
-    // {
-    //   name: "Category",
-    //   link: "/category",
-    //   visible: "loggedIn",
-    // },
     {
       name: "Logout",
       link: "/",
@@ -60,7 +45,7 @@ export default function Header() {
             <h2 className="fs-6 p-3 text-white">eshop</h2>
           </a>
         </div>
-        <Search />
+        {/* <Search /> */}
         <div className="d-flex">
           {/* check if user is logged in or not, if logged in, show items where visible === "all" and visible === "loggedIn", and do not display items where visible === "NotLoggedIn", if not logged in, show items where visible === "all" and visible === "NotLoggedIn"   */}
           {menu

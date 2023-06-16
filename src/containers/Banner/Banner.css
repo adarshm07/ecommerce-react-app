@@ -1,0 +1,9 @@
+.multiple__products__absolute {
+  bottom: 40px;
+  z-index: 1;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  top: 40%;
+}

@@ -37,16 +37,18 @@ const ProductCard = ({ id, title, price, description }) => {
   return (
     <div className="product">
       <div className="product-img">
-        <img src="https://via.placeholder.com/300x250" alt="" />
+        <img src="https://via.placeholder.com/100x50" alt="" />
       </div>
       <Link to={`/product/${id}`}>
-        <h3>{title}</h3>
+        <h3 className="text-start">{title}</h3>
       </Link>
-      <p>Price: {price}</p>
-      <p>{description}</p>
-      <button className="btn btn-sm btn-primary" onClick={handleAddToCart}>
-        Add to cart
-      </button>
+      <p className="text-start">Price: {price}</p>
+      <p className="text-start">{description}</p>
+      <div className="d-flex justify-content-end">
+        <button className="btn btn-sm btn-primary" onClick={handleAddToCart}>
+          Add to cart
+        </button>
+      </div>
     </div>
   );
 };

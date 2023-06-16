@@ -42,6 +42,7 @@ export default function Login() {
           setUser({
             firstName: data.data.getUser.firstName,
             lastName: data.data.getUser.lastName,
+            id: data.data.getUser._id,
             email: data.data.getUser.email,
             token: data.data.token,
             loggedIn: true,
