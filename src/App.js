@@ -18,6 +18,7 @@ import Cart from "./pages/Cart";
 import AlUsers from "./pages/dashboard/AllUsers";
 import AllProducts from "./pages/dashboard/AllProducts";
 import { register } from "swiper/element/bundle";
+import SearchResults from "./pages/SearchResults";
 
 function App() {
   // isLoggedIn value is in redux store, when user login, it is updated to true, and when user logout, it is updated to false.
@@ -77,6 +78,7 @@ function App() {
         />
         <Route path="/category/:category" element={<ProductsByCategoryId />} />
         <Route path="/product/:id" element={<Product />} />
+        <Route path="/search/:id/:search" element={<SearchResults />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/dashboard/all-users" element={<AlUsers />} />
         <Route path="/dashboard/all-products" element={<AllProducts />} />

@@ -14,7 +14,7 @@ export default function ProductsByCategoryId({ products }) {
     const data = await axios.get(
       `http://localhost:8080/api/v1/product/by/category/${category}`
     );
-    console.log(data);
+    // console.log(data);
 
     if (data?.data?.statusCode === 200) {
       setAllProducts(data?.data?.data);

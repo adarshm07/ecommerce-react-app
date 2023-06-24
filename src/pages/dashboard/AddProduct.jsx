@@ -42,7 +42,7 @@ export default function AddProduct() {
       description,
       price,
       categoryId,
-      imageUrl,
+      image: imageUrl,
     });
 
     let config = {
@@ -59,7 +59,7 @@ export default function AddProduct() {
     axios
       .request(config)
       .then((response) => {
-        if (data.data.statusCode === 200) {
+        if (response.data.statusCode === 201) {
           toast.success("Product added successfully.");
         } else {
           toast.error("Error.");
@@ -85,7 +85,6 @@ export default function AddProduct() {
   // }, [navigate, user]);
 
   const onUpload = async (file) => {
-    console.log(file);
     var formdata = new FormData();
     formdata.append("image", file[0], file[0].name);
 
@@ -101,7 +100,7 @@ export default function AddProduct() {
     )
       .then(async (response) => {
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         if (data.status) {
           setImageUrl(data?.data?.path);
         } else {
@@ -157,7 +156,13 @@ export default function AddProduct() {
               uploadImg="Upload Image/Videos"
               description="Drag'n'drop files here to upload. We can accept only img or video files that are less than 5mb in size."
             />
-            <span className="text-muted mt-3">{imageUrl}</span>
+            {imageUrl && (
+              <img
+                src={imageUrl}
+                alt="product"
+                style={{ maxHeight: "100px" }}
+              />
+            )}
             <button
               className="w-100 btn btn-primary mt-4"
               onClick={handleSubmit}

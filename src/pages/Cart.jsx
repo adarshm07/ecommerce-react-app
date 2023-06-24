@@ -18,7 +18,7 @@ export default function Cart() {
         "Content-Type": "application/json",
       },
     });
-    console.log(data.data.data);
+    // console.log(data.data.data);
   };
 
   const handleChangeQuantity = async (product, action) => {
@@ -66,7 +66,7 @@ export default function Cart() {
   };
 
   useEffect(() => {
-    getAllItems();
+    if (productsInCart.length > 0) getAllItems();
   }, []);
 
   return (

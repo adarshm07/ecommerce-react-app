@@ -5,7 +5,7 @@ import { addToCart } from "../store/cartSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const ProductCard = ({ id, title, price, description }) => {
+const ProductCard = ({ id, title, price, description, image }) => {
   const token = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
 
@@ -37,7 +37,11 @@ const ProductCard = ({ id, title, price, description }) => {
   return (
     <div className="product">
       <div className="product-img">
-        <img src="https://via.placeholder.com/100x50" alt="" />
+        <img
+          src={image}
+          alt=""
+          style={{ height: "200px", objectFit: "cover" }}
+        />
       </div>
       <Link to={`/product/${id}`}>
         <h3 className="text-start">{title}</h3>

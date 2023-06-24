@@ -3,6 +3,8 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import { toast } from "react-toastify";
+import ProductDetail from "../components/ProductDetail";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function Product() {
   const [product, setProduct] = useState([]);
@@ -11,7 +13,7 @@ export default function Product() {
 
   const getProduct = async () => {
     const data = await axios.get(`http://localhost:8080/api/v1/product/${id}`);
-    console.log(data);
+    // console.log(data);
     if (data.data.statusCode === 200) {
       setProduct(data.data.data);
     } else {
@@ -25,16 +27,12 @@ export default function Product() {
 
   return (
     <Layout>
-      <div
-        className="d-flex justify-content-center align-items-center bg-primary text-white"
-        style={{ height: "200px" }}
-      >
-        <h1 className="text-center">{product.title}</h1>
-      </div>
-      <div>
-        <h1 className="text-center">Description: {product.description}</h1>
-        <h1 className="text-center">Price: {product.price}</h1>
-      </div>
+      <Breadcrumbs title={product.title} />
+      <ProductDetail
+        title={product.title}
+        price={product.price}
+        description={product.description}
+      />
     </Layout>
   );
 }

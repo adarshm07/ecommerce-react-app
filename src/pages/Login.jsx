@@ -11,6 +11,16 @@ export default function Login() {
   // useSelector to get the data from the store
   const user = useSelector((state) => state.user);
 
+  useEffect(() => {
+    if (user) {
+      if (user.loggedIn) {
+        navigate("/");
+      } else {
+        console.log("User is not logged in.");
+      }
+    }
+  }, []);
+
   // dispatch is used to push data to redux store
   const dispatch = useDispatch();
 

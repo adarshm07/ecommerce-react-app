@@ -1,12 +1,23 @@
 import "./Search.css";
 import { AiOutlineSearch } from "react-icons/ai";
 
-export default function Search({ allCategories }) {
+export default function Search({
+  allCategories,
+  searchText,
+  onSearchTextChange,
+  onProductSearch,
+  onCategoryChange,
+  categoryId,
+}) {
   return (
     <div className="amazon__search d-flex align-items-center">
       {/* category filter */}
-      <div class="filter-container">
-        <select id="filter">
+      <div className="filter-container">
+        <select
+          id="filter"
+          onChange={(e) => onCategoryChange(e.target.value)}
+          value={categoryId}
+        >
           <option value="">All</option>
           {allCategories &&
             allCategories.map((category) => (
@@ -18,9 +29,19 @@ export default function Search({ allCategories }) {
       </div>
 
       {/* search bar */}
-      <div class="search__container d-flex">
-        <input type="text" class="search__input" placeholder="Search" />
-        <button class="search__btn">
+      <div className="search__container d-flex">
+        <input
+          type="text"
+          className="search__input"
+          placeholder="Search"
+          value={searchText}
+          onChange={(e) => onSearchTextChange(e.target.value)}
+        />
+        <button
+          className="search__btn"
+          onClick={onProductSearch}
+          disabled={searchText === ""}
+        >
           <AiOutlineSearch size={26} />
         </button>
       </div>

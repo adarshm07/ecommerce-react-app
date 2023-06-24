@@ -2,6 +2,7 @@ import ProductCard from "../ProductCard";
 import Slider from "../Slider";
 
 export default function ProductByCategory({ allProducts, title }) {
+  console.log(allProducts);
   const sliders =
     allProducts &&
     allProducts.map((product, index) => (
