@@ -71,45 +71,60 @@ export default function Cart() {
 
   return (
     <Layout>
-      <div className="d-flex flex-column gap-2">
-        {productsInCart.cartItems &&
-          productsInCart.cartItems.map((product) => {
-            return (
-              <div
-                key={product._id}
-                className="product-in-cart d-flex justify-content-between border border-1 p-2 m-1 w-50"
-              >
-                <div>Title: {product.title}</div>
-                <div>Price: {product.price}</div>
-                <div>
-                  Quantity:
-                  <button onClick={() => handleChangeQuantity(product, "dec")}>
-                    -
-                  </button>
-                  {product.quantity}
-                  <button onClick={() => handleChangeQuantity(product, "inc")}>
-                    +
-                  </button>
-                </div>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleChangeQuantity(product, "dec")}
-                >
-                  Remove
-                </button>
-              </div>
-            );
-          })}
-        <button className="btn btn-primary">Checkout</button>
-        <button className="btn btn-primary" onClick={handleDelete}>
-          Clear Cart
-        </button>
-
+      <div className="d-flex col-12 mt-4">
         {!productsInCart && (
           <div>
             <div>Your cart is empty</div>
           </div>
         )}
+        <div className="d-flex flex-column gap-2 col-8">
+          {productsInCart.cartItems &&
+            productsInCart.cartItems.map((product) => {
+              return (
+                <div
+                  key={product._id}
+                  className="product-in-cart d-flex justify-content-between border border-1 p-2 m-1"
+                >
+                  <div>Title: {product.title}</div>
+                  <div>Price: {product.price}</div>
+                  <div>
+                    Quantity:
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleChangeQuantity(product, "dec")}
+                    >
+                      -
+                    </button>
+                    <span className="px-2">{product.quantity}</span>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleChangeQuantity(product, "inc")}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleChangeQuantity(product, "dec")}
+                  >
+                    Remove
+                  </button>
+                </div>
+              );
+            })}
+          <div className="ms-auto">
+            <button className="btn btn-danger" onClick={handleDelete}>
+              Clear Cart
+            </button>
+          </div>
+        </div>
+        <div className="col-4 p-2">
+          <div className="d-flex justify-content-between align-items-center gap-2">
+            <span>Total:</span>
+            <h4>{productsInCart.totalPrice}</h4>
+          </div>
+          <button className="btn btn-primary w-100 mt-4">Checkout</button>
+        </div>
       </div>
     </Layout>
   );

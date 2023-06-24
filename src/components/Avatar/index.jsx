@@ -41,9 +41,14 @@ export default function Avatar() {
           <MdKeyboardArrowDown color="#ffffff" size={20} />
           {showDropdown && (
             <div className="position-absolute d-flex flex-column dropdown">
-              <button className="btn btn-link" onClick={handleCartLink}>
-                Cart
-              </button>
+              <Link to={"/cart"}>
+                <button className="btn btn-link">Cart</button>
+              </Link>
+              {user.role === "ADMIN" && (
+                <Link to={"/dashboard"}>
+                  <button className="btn btn-link">Dashboard</button>
+                </Link>
+              )}
               <button className="btn btn-link" onClick={handleLogout}>
                 Logout
               </button>
@@ -52,9 +57,7 @@ export default function Avatar() {
         </div>
       ) : (
         <Link to={"/login"}>
-          <button className="btn btn-sm btn-primary" onClick={handleCartLink}>
-            Login
-          </button>
+          <button className="btn btn-sm btn-primary">Login</button>
         </Link>
       )}
     </>

@@ -3,7 +3,7 @@ import Layout from "./Layout";
 
 export default function DashboardLayout({ children }) {
   return (
-    <Layout>
+    <Layout isDashboard={true}>
       <div className="d-flex">
         <Sidebar />
         {children}

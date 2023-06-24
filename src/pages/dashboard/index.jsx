@@ -4,7 +4,7 @@ import Footer from "../../components/Dashboard/Footer";
 
 export default function Dashboard() {
   return (
-    <Layout>
+    <Layout isDashboard={true}>
       <div className="d-flex">
         <Sidebar />
 
