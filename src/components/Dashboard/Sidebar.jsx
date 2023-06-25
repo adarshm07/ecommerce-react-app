@@ -27,6 +27,12 @@ const sidebarLinks = [
     link: "/dashboard/all-products",
     visible: "adminLoggedIn",
   },
+  {
+    id: 4,
+    name: "All Categories",
+    link: "/dashboard/all-categories",
+    visible: "adminLoggedIn",
+  },
 ];
 
 const Sidebar = () => {

@@ -10,9 +10,8 @@ import DashboardLayout from "../../components/DashboardLayout";
 import Modal from "../../components/Modal";
 import { ImageUpload } from "../../components/ImageUpload";
 
-export default function AllProducts() {
+export default function AllCategories() {
   const [isOpen, setIsOpen] = useState(false);
-  const [allProducts, setAllProducts] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [current, setCurrent] = useState({
     id: "",
@@ -24,21 +23,6 @@ export default function AllProducts() {
   });
   const token = useSelector((state) => state.user.token);
 
-  const getAllProducts = async () => {
-    const data = await axios.get("http://localhost:8080/api/v1/product", {
-      headers: {
-        "x-token": token,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (data?.data?.data) {
-      setAllProducts(data.data.data);
-    } else {
-      toast.error("Error fetching data");
-    }
-  };
-
   const fetchAllCategories = async () => {
     const data = await axios.get("http://localhost:8080/api/v1/category");
     if (data.data.statusCode === 200) {
@@ -49,14 +33,13 @@ export default function AllProducts() {
   };
 
   useEffect(() => {
-    getAllProducts();
     fetchAllCategories();
   }, []);
 
-  const handleDeleteProduct = async (id) => {
+  const handleDeleteCategory = async (id) => {
     try {
       const data = await axios.delete(
-        `http://localhost:8080/api/v1/product/${id}`,
+        `http://localhost:8080/api/v1/category/${id}`,
         {
           headers: {
             "x-token": token,
@@ -65,7 +48,7 @@ export default function AllProducts() {
       );
       if (data.data.statusCode === 201) {
         toast.success("Product deleted successfully.");
-        getAllProducts();
+        fetchAllCategories();
       } else {
         toast.error("Error.");
       }
@@ -109,11 +92,9 @@ export default function AllProducts() {
       image: current.imageUrl,
     });
 
-    console.log("current", current);
-
     let config = {
       method: "put",
-      url: `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/product/${current.id}`,
+      url: `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/category/${current.id}`,
       headers: {
         "x-token": token,
         "Content-Type": "application/json",
@@ -166,9 +147,7 @@ export default function AllProducts() {
                 id: info.row.original._id,
                 title: info.row.original.title,
                 description: info.row.original.description,
-                imageUrl: info.row.original.image,
-                price: info.row.original.price,
-                categoryId: info.row.original.categoryId._id,
+                imageUrl: info.row.original.imageUrl,
               });
               setIsOpen(true);
             }}
@@ -177,7 +156,7 @@ export default function AllProducts() {
           </button>
           <button
             className="btn btn-danger"
-            onClick={(e) => handleDeleteProduct(info.row.original.id)}
+            onClick={(e) => handleDeleteCategory(info.row.original.id)}
           >
             Delete
           </button>
@@ -207,31 +186,6 @@ export default function AllProducts() {
               setCurrent({ ...current, description: e.target.value })
             }
           />
-
-          <input
-            type="number"
-            className="form-control mt-3"
-            placeholder="Price"
-            value={current.price}
-            onChange={(e) => setCurrent({ ...current, price: e.target.value })}
-          />
-
-          <select
-            name="category"
-            id="category"
-            className="form-control mt-3"
-            value={current.categoryId}
-            onChange={(e) =>
-              setCurrent({ ...current, categoryId: e.target.value })
-            }
-          >
-            <option value="">Select Category</option>
-            {allCategories.map((category) => (
-              <option value={category._id} key={category._id}>
-                {category.title}
-              </option>
-            ))}
-          </select>
           <br />
 
           <ImageUpload
@@ -261,7 +215,7 @@ export default function AllProducts() {
           </button>
         </div>
       </Modal>
-      <CustomTable data={allProducts} columns={columns} />
+      <CustomTable data={allCategories} columns={columns} />
     </DashboardLayout>
   );
 }
