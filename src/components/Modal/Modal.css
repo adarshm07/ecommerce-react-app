@@ -5,11 +5,13 @@
   transform: translate(-50%, -50%);
   background-color: #ffffff;
   box-shadow: 4px 12px 6px #949191;
-  min-height: 300px;
-  min-width: 400px;
-  padding: 20px;
+  min-height: 200px;
+  min-width: 200px;
+  max-width: 400px;
+  padding: 12px;
   border-radius: 4px;
-  /* overflow: auto; */
+  /* overflow-y: auto; */
+  z-index: 99;
 }
 
 .close__btn {

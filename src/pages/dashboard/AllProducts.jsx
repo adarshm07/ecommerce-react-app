@@ -21,6 +21,7 @@ export default function AllProducts() {
   const [allCategories, setAllCategories] = useState([]);
   const [categoryId, setCategoryId] = useState("");
   const [current, setCurrent] = useState({
+    id: "",
     title: "",
     description: "",
     imageUrl: "",
@@ -44,8 +45,18 @@ export default function AllProducts() {
     }
   };
 
+  const fetchAllCategories = async () => {
+    const data = await axios.get("http://localhost:8080/api/v1/category");
+    if (data.data.statusCode === 200) {
+      setAllCategories(data.data.data);
+    } else {
+      toast.error("Error.");
+    }
+  };
+
   useEffect(() => {
     getAllProducts();
+    fetchAllCategories();
   }, []);
 
   const handleDeleteProduct = async (id) => {
@@ -97,17 +108,18 @@ export default function AllProducts() {
 
   const handleSubmit = () => {
     let data = JSON.stringify({
-      title,
-      description,
-      price,
-      categoryId,
-      image: imageUrl,
+      title: current.title,
+      description: current.description,
+      price: current.price,
+      categoryId: current.categoryId,
+      image: current.imageUrl,
     });
 
+    console.log("current", current);
+
     let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/product`,
+      method: "put",
+      url: `${process.env.REACT_APP_PUBLIC_API_URL}/api/v1/product/${current.id}`,
       headers: {
         "x-token": token,
         "Content-Type": "application/json",
@@ -157,9 +169,12 @@ export default function AllProducts() {
             className="btn btn-primary"
             onClick={(e) => {
               setCurrent({
+                id: info.row.original._id,
                 title: info.row.original.title,
                 description: info.row.original.description,
                 imageUrl: info.row.original.image,
+                price: info.row.original.price,
+                categoryId: info.row.original.categoryId._id,
               });
               setIsOpen(true);
             }}
@@ -168,7 +183,7 @@ export default function AllProducts() {
           </button>
           <button
             className="btn btn-danger"
-            onClick={(e) => handleDeleteProduct(info.row.original._id)}
+            onClick={(e) => handleDeleteProduct(info.row.original.id)}
           >
             Delete
           </button>
@@ -177,14 +192,10 @@ export default function AllProducts() {
     }),
   ];
 
-  useEffect(() => {
-    console.log(current);
-  }, [current]);
-
   return (
     <DashboardLayout>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-        <div className="w-75 m-auto border border-1 rounded p-4 mt-4">
+        <div className="w-100 m-auto border border-1 rounded p-4 mt-4 overflow-auto">
           <h1 className="fs-4">Add Product</h1>
           <input
             type="text"
@@ -227,22 +238,32 @@ export default function AllProducts() {
               </option>
             ))}
           </select>
+          <br />
 
           <ImageUpload
             onDrop={onUpload}
             reject="Image/Video file less than 5mb"
             uploadImg="Upload Image/Videos"
             description="Drag'n'drop files here to upload. We can accept only img or video files that are less than 5mb in size."
+            btn="Upload Image"
           />
           {current.imageUrl && (
-            <img
-              src={current.imageUrl}
-              alt="product"
-              style={{ maxHeight: "100px" }}
-            />
+            <div>
+              <img
+                src={current.imageUrl}
+                alt="product"
+                style={{ maxHeight: "100px" }}
+              />
+              <button
+                className="btn btn-sm btn-danger"
+                onClick={() => setCurrent({ ...current, imageUrl: "" })}
+              >
+                Delete
+              </button>
+            </div>
           )}
           <button className="w-100 btn btn-primary mt-4" onClick={handleSubmit}>
-            Add
+            Update
           </button>
         </div>
       </Modal>

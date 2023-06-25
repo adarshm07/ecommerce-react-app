@@ -35,55 +35,63 @@ export function ImageUpload({
   reject = "image file less than 5mb",
   uploadImg = "Upload images",
   description = "Drag&apos;n&apos;drop files here to upload. We can accept only <i>.jpg, .png files</i> files that are less than 5mb in size.",
+  btn = "Select files",
+  show = true,
 }) {
   const { classes, theme } = useStyles();
   const openRef = useRef(null);
 
   return (
     <div className={classes.wrapper}>
-      <Dropzone
-        openRef={openRef}
-        onDrop={onDrop}
-        className={classes.dropzone}
-        radius="md"
-        accept={accept}
-        maxSize={5 * 1024 ** 2}
-      >
-        <div style={{ pointerEvents: "none" }}>
-          <Group position="center">
-            <Dropzone.Accept>
-              <IconDownload
-                size={rem(50)}
-                color={theme.colors[theme.primaryColor][6]}
-                stroke={1.5}
-              />
-            </Dropzone.Accept>
-            <Dropzone.Reject>
-              <IconX size={rem(50)} color={theme.colors.red[6]} stroke={1.5} />
-            </Dropzone.Reject>
-            <Dropzone.Idle>
-              <IconCloudUpload
-                size={rem(50)}
-                color={
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[0]
-                    : theme.black
-                }
-                stroke={1.5}
-              />
-            </Dropzone.Idle>
-          </Group>
+      {show && (
+        <Dropzone
+          openRef={openRef}
+          onDrop={onDrop}
+          className={classes.dropzone}
+          radius="md"
+          accept={accept}
+          maxSize={5 * 1024 ** 2}
+        >
+          <div style={{ pointerEvents: "none" }}>
+            <Group position="center">
+              <Dropzone.Accept>
+                <IconDownload
+                  size={rem(50)}
+                  color={theme.colors[theme.primaryColor][6]}
+                  stroke={1.5}
+                />
+              </Dropzone.Accept>
+              <Dropzone.Reject>
+                <IconX
+                  size={rem(50)}
+                  color={theme.colors.red[6]}
+                  stroke={1.5}
+                />
+              </Dropzone.Reject>
+              <Dropzone.Idle>
+                <IconCloudUpload
+                  size={rem(50)}
+                  color={
+                    theme.colorScheme === "dark"
+                      ? theme.colors.dark[0]
+                      : theme.black
+                  }
+                  stroke={1.5}
+                />
+              </Dropzone.Idle>
+            </Group>
 
-          <Text ta="center" fw={700} fz="lg" mt="xl">
-            <Dropzone.Accept>Drop files here</Dropzone.Accept>
-            <Dropzone.Reject>{reject}</Dropzone.Reject>
-            <Dropzone.Idle>{uploadImg}</Dropzone.Idle>
-          </Text>
-          <Text ta="center" fz="sm" mt="xs" c="dimmed">
-            {description}
-          </Text>
-        </div>
-      </Dropzone>
+            <Text ta="center" fw={700} fz="lg" mt="xl">
+              <Dropzone.Accept>Drop files here</Dropzone.Accept>
+              <Dropzone.Reject>{reject}</Dropzone.Reject>
+              <Dropzone.Idle>{uploadImg}</Dropzone.Idle>
+            </Text>
+            <Text ta="center" fz="sm" mt="xs" c="dimmed">
+              {description}
+            </Text>
+          </div>
+        </Dropzone>
+      )}
 
       <Button
         className={classes.control}
@@ -91,7 +99,7 @@ export function ImageUpload({
         radius="xl"
         onClick={() => openRef.current?.()}
       >
-        Select files
+        {btn}
       </Button>
     </div>
   );
